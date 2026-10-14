@@ -229,6 +229,13 @@ function resolveSingleCheckPreviewPayload(responseBody, fallbackEan) {
         if (Array.isArray(responseBody.result)) {
             return normalizeSingleCheckResults(responseBody.result, fallbackEan);
         }
+        if (
+            typeof responseBody.found === "boolean" ||
+            Array.isArray(responseBody.items) ||
+            Array.isArray(responseBody.storefronts)
+        ) {
+            return normalizeSingleCheckResults([responseBody], fallbackEan);
+        }
         if (responseBody.ean || responseBody.title || responseBody.price || responseBody.storefront) {
             return [responseBody];
         }
